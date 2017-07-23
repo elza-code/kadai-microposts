@@ -1,6 +1,6 @@
 class MicropostsController < ApplicationController
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:destroy, :create]
+  before_action :correct_user, only: [:destroy]
   
   def create
      @micropost = current_user.microposts.build(micropost_params)
@@ -8,7 +8,7 @@ class MicropostsController < ApplicationController
       flash[:success] = 'メッセージを投稿しました。'
       redirect_to root_url
     else
-      @microposts = current_user.microposts.order('created_at DESC').page(params[:page])
+      @microposts = current_user.feed_microposts.order('created_at DESC').page(params[:page])
       flash.now[:danger] = 'メッセージの投稿に失敗しました。'
       render 'toppages/index'
     end
@@ -17,7 +17,11 @@ class MicropostsController < ApplicationController
   def destroy
     @micropost.destroy
     flash[:success] = 'メッセージを削除しました。'
-    redirect_back(fallback_location: root_path)
+    if params[:controller] == 'microposts'
+      redirect_to root_url
+    else
+      redirect_back(fallback_location: root_path)
+    end
   end
   
    private
@@ -28,8 +32,8 @@ class MicropostsController < ApplicationController
   
      def correct_user
       @micropost = current_user.microposts.find_by(id: params[:id])
-     unless @micropost
-      redirect_to root_url
+       unless @micropost
+        redirect_to root_url
+       end
      end
-  end
 end
