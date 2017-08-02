@@ -9,8 +9,10 @@
         <div>
           <%= link_to user.name, user_path(user) %> <span class="text-muted">posted at <%= micropost.created_at %></span>
         </div>
+       
         <div>
-          <p><%= micropost.content %></p>
+          <p><%= link_to micropost.content %></p>
+          
         </div>
         <div>
           
@@ -19,6 +21,19 @@
           <% end %>
           
           <%= render 'favorites/favorite_button', micropost: micropost %>
+              <%  @micropost = current_user.microposts.build %>
+              
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">返信する <span class="caret"></span></a>
+              <ul class="dropdown-menu" >
+              <div class="col-xs-12">
+              <%= form_for(@micropost, url: reply_micropost_path(micropost)) do |f| %>
+                <p><%= micropost.user.name %>のポスト「<%= micropost.content %>」に対する返信</p>
+                <%= f.text_area :content %>
+                <%= f.submit value="返信する" %>
+              <% end %>
+              </div>
+              </ul>
+         
         </div>
       </div>
     </li>

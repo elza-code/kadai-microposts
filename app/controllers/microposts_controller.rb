@@ -15,6 +15,7 @@ class MicropostsController < ApplicationController
   end
 
   def destroy
+    p params
     @micropost.destroy
     flash[:success] = 'メッセージを削除しました。'
     if params[:controller] == 'microposts'
@@ -23,6 +24,20 @@ class MicropostsController < ApplicationController
       redirect_back(fallback_location: root_path)
     end
   end
+  
+  def reply
+    @micropost = current_user.microposts.build(micropost_params)
+    @micropost.reply_id = params[:id]
+    if @micropost.save
+      flash[:success] = 'リプライメッセージを投稿しました。'
+      redirect_to root_url
+    else
+      @microposts = current_user.microposts.order('created_at DESC').page(params[:page])
+      flash.now[:danger] = 'リプライメッセージの投稿に失敗しました。'
+      render 'toppages/index'
+    end
+  end
+
   
    private
 

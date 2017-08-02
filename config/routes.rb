@@ -16,8 +16,14 @@ Rails.application.routes.draw do
     end
   end
   
+  resources :microposts do
+    member do
+      post :reply
+    end
+  end
+  
   resources :microposts, only: [:create, :destroy] do
-    resource :favorites, only: [:create, :destroy]
+  resources :favorites, only: [:create, :destroy]
   end
   resources :relationships, only: [:create, :destroy]
 
