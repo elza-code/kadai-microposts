@@ -36,13 +36,14 @@ class MicropostsController < ApplicationController
       flash.now[:danger] = 'リプライメッセージの投稿に失敗しました。'
       render 'toppages/index'
     end
-  end
+  end 
 
+  
   
    private
 
   def micropost_params
-    params.require(:micropost).permit(:content)
+    params.require(:micropost).permit(:content, :image)
   end
   
      def correct_user
@@ -51,4 +52,5 @@ class MicropostsController < ApplicationController
         redirect_to root_url
        end
      end
-end
+   end
+   

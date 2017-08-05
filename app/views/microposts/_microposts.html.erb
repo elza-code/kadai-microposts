@@ -3,7 +3,11 @@
     <% user = micropost.user %>
     <li class="media">
       <div class="media-left">
-        <img class="media-object img-rounded" src="<%= gravatar_url(user, options = { size: 50 }) %>" alt="">
+      <% if user.image? %>
+      　<%= image_tag user.image.url(options = { size: 60 }) %>
+      <% else %>
+        <img class="media-object img-rounded" src="<%= gravatar_url(@user, options = { size: 60 }) %>" alt="">
+      <% end %>
       </div>
       <div class="media-body">
         <div>
@@ -11,8 +15,23 @@
         </div>
        
         <div>
-          <p><%= link_to micropost.content %></p>
-          
+          <p><%= micropost.content %></p>
+          <% if micropost.image? %>
+          　<p><%= image_tag micropost.image.url(options = { size: 60 }) %></p>
+          <% end %>
+              <a id="reply-<%= micropost.id %>">返信する</a>
+              
+              <div class="col-xs-12">
+                <div id="reply-post-from-<%= micropost.id %>"></div>
+                <script>
+                  $('#reply-<%= micropost.id %>').click(function(e){
+                    console.log(e);
+                    $('#reply-post-from-<%= micropost.id %>').html("<%=j render 'microposts/reply_form', micropost: micropost %>");
+                  });
+                </script>
+              </div>
+
+              
         </div>
         <div>
           
@@ -21,18 +40,7 @@
           <% end %>
           
           <%= render 'favorites/favorite_button', micropost: micropost %>
-              <%  @micropost = current_user.microposts.build %>
               
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">返信する <span class="caret"></span></a>
-              <ul class="dropdown-menu" >
-              <div class="col-xs-12">
-              <%= form_for(@micropost, url: reply_micropost_path(micropost)) do |f| %>
-                <p><%= micropost.user.name %>のポスト「<%= micropost.content %>」に対する返信</p>
-                <%= f.text_area :content %>
-                <%= f.submit value="返信する" %>
-              <% end %>
-              </div>
-              </ul>
          
         </div>
       </div>

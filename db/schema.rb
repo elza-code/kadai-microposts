@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170730092318) do
+ActiveRecord::Schema.define(version: 20170803042043) do
 
   create_table "favorites", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20170730092318) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "reply_id"
+    t.string   "image"
     t.index ["user_id"], name: "index_microposts_on_user_id", using: :btree
   end
 
@@ -47,6 +48,7 @@ ActiveRecord::Schema.define(version: 20170730092318) do
     t.string   "password_digest"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "image"
   end
 
   add_foreign_key "favorites", "microposts"

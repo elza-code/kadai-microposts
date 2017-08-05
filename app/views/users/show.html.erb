@@ -2,7 +2,9 @@
   <aside class="col-xs-4">
     <%= render 'user_info' %>
     <%= render 'relationships/follow_button', user: @user %>
+    
   </aside>
+  
   <div class="col-xs-8">
     <%= render 'links' %>
     <%= render 'microposts/microposts', microposts: @microposts %>

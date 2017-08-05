@@ -21,6 +21,8 @@ class User < ApplicationRecord
   #Userからみてfavoriteは複数ある
   has_many :favorite_microposts, through: :favorites, source: :micropost
   
+  mount_uploader :image, ImageUploader
+  
   def favorite(micropost)
     self.favorites.find_or_create_by(micropost_id: micropost.id)
   end

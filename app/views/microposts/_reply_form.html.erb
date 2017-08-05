@@ -1,0 +1,6 @@
+<%= form_for(current_user.microposts.build, url: reply_micropost_path(micropost), html: { id: "new_micropost-#{micropost.id}" }) do |f| %>
+  <p><%= micropost.user.name %>のポスト「<%= micropost.content %>」に対する返信</p>
+  <%= f.text_area :content %>
+  <p><%= f.file_field :image %> 画像を添付する</p>
+  <p><%= f.submit value="返信する" %></p>
+<% end %>
